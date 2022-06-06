@@ -19,14 +19,6 @@ const apiServices = {
     
     } catch (err) { console.log (err) }
   },
-  
-  saveProducto: async (product) => {
-    try {
-      const res = await axios.post(apiUrl + '/productos', product);
-      return res.data;
-
-    } catch (err) { console.log (err) }
-  },  
   deleteProducto: async (productId) => {
     try {
         const res = await axios.delete(`${apiUrl}/productos/${productId}`);
@@ -40,9 +32,25 @@ const apiServices = {
       return res.data;
 
     } catch (err) { console.log (err) }
-  },  guardarProducto: async (producto) => {
+  }, 
+   guardarProducto: async (producto) => {
     try {
       const res = await axios.post(apiUrl + '/productos', producto);
+      return res.data;
+
+    } catch (err) { console.log (err) }
+  },
+  getPedidos: async (userId) => {
+    try {
+      const res = await axios.get(`${apiUrl}/usuarios/${userId}/pedidos`);
+      return res.data;
+    
+    } catch (err) { console.log (err) }
+  },
+  guardarCompra: async (userId,carrito) => {
+    try {
+      const res = await axios.post(`${apiUrl}/usuarios/${userId}/pedidos`, carrito);
+      
       return res.data;
 
     } catch (err) { console.log (err) }

@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/user/LoginView.vue'
 import RegistroView from '../views/user/RegistroView.vue'
-
+import ProductoForm from '../views/admin/ProductoForm.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,31 +25,27 @@ const routes = [
    
   },
   {
+    path: '/new',
+    name: 'productoNew',
+    component: ProductoForm,
+   
+  },  {
+    path: '/edit',
+    name: 'productoEdit',
+    component: ProductoForm,
+   
+  },
+  {
     path: '/pedidos',
     name: 'pedidos',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/PedidosView.vue')
+    component: () => import('@/views/user/PedidosView.vue')
   },
   {
     path: '/admin',
     name: 'admin',
     component: () => import('@/views/admin/AdminView.vue'),
     props: true
-  },
-  {
-    path: '/producto/new',
-    name: 'producto',
-    component: () => import('@/views/admin/ProductoForm.vue'),
-    props: true
-  },
-  {
-    path: '/producto/edit',
-    name: 'producto',
-    component: () => import('@/views/admin/ProductoForm.vue'),
-    props: true
-  },
+  }
 ]
 
 const router = new VueRouter({

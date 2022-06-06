@@ -11,7 +11,8 @@
             <form class="mt-8 space-y-6" action="#" method="POST">
                 <div class="relative">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">Email</label>
-                    <input required v-model="form.email" @keyup="validarEmail" class=" w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="email" placeholder="Ingrese su email" >
+                    <input required v-model="form.email" @keyup="validarEmail()" class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500" type="email" placeholder="Ingrese su email" >
+                  <p class="text-red-500 bold text-xs " v-if="alert.email">{{alert.email}}</p>  
                 </div>
                  <div class="relative">
                     <label class="text-sm font-bold text-gray-700 tracking-wide">Usuario</label>
@@ -51,21 +52,25 @@ export default {
         password: '',
         isAdmin:0
       },
-      alert: ''
+     alert: {
+            email:'',
+        username: '',
+        password: '',
+        },
   }),
   methods: {
 
         async registrarUsuario() {
                 await apiServices.createUser(this.form);
-                this.$router.push('/');
+                this.$router.push('/login');
         },
           validarEmail() {
-                const mailRegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+          const mailRegExp = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
                 this.alert.email = mailRegExp.test(this.form.email) ? 
                     '' : 
                     'Formato de email inválido.';
                 if (!this.form.email) this.alert.email = '';
-               },
+             },
   },
 }
 

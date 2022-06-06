@@ -8,6 +8,9 @@
         </div>
         <TablaCarrito :productos="carrito" />
         <div class="p-3  mt-2 text-center space-x-4 md:block">
+                <button @click="vaciarCarrito()" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
+                Vaciar Carrito
+            </button>
             <button @click="closeCarrito()" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100">
                 Cancelar
             </button>
@@ -42,8 +45,11 @@ import TablaCarrito from './TablaCarrito.vue'
         closeCarrito(){
                 this.$emit('cerrar-carrito', false)
         },
+         vaciarCarrito(){
+                this.$emit('vaciar-carrito', false)
+        },
         finalizarCompra(){
-               this.$emit('finalizar-compra', false)
+               this.$emit('finalizar-compra', this.carrito)
         }
     },
     computed: {

@@ -13,7 +13,7 @@
                                 <div class="md:flex flex-row md:space-x-4 w-full text-xs">
                                     <div class="mb-3 space-y-2 w-full text-xs">
                                         <label class="font-semibold text-gray-600 py-2">Nombre Producto <abbr title="required">*</abbr> <span v-if="!alert.nombre_completo && form.nombre_completo"><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span></label>
-                                        <input v-model="form.nombre" @keyup="validarNombre" name="nombre" placeholder="Nombre Producto" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" >
+                                        <input v-model="form.nombre" name="nombre" placeholder="Nombre Producto" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" required="required" type="text" >
                                     <p class="text-red-500 bold text-xs " v-if="alert.nombre">{{alert.nombre}}</p>  
                                     </div>
                                   
@@ -31,13 +31,12 @@
                                     <div class="md:flex md:flex-row md:space-x-4 w-full text-xs">
                                         <div class="w-full flex flex-col mb-3">
                                             <label class="font-semibold text-gray-600 py-2">Stock<abbr title="required">*</abbr><span v-if="!alert.telefono && form.telefono"><svg class="w-4 h-4 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></span></label>
-                                            <input v-model="form.stock"  @keyup="validarTelefono" name="stock"  placeholder="stock" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" type="text">
+                                            <input v-model="form.stock"  name="stock"  placeholder="stock" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded-lg h-10 px-4" type="text">
                                             <p class="text-red-500 bold text-xs " v-if="alert.stock">{{alert.stock}}</p>  
                                          </div>
                                             
                                         </div>
-                                       
-                                
+                                    
                                         <p class="text-xs text-red-500 text-right my-3">Campos requeridos con asterisco <abbr title="Required field">*</abbr></p>
                                         <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
                                             <button class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100" @click="resetForm()"> Cancelar </button>
@@ -80,7 +79,6 @@ export default {
     },
     
   },
-
   mounted() {
 
   },
@@ -92,19 +90,13 @@ export default {
       else this.$router.push('/')
     },
        async guardarProducto() {
-                await apiServices.guardarProducto(this.form);
-                this.$router.push('/admin');
-    },
-           async actualizarProducto() {
-      const users = await apiServices.getUsers();
-      const user = users.find(user => user.username === this.username && user.password === this.password)
-
-      if (user) {
-        this.$emit('iniciar-sesion', user);
-        this.$router.push('/')
-      } else {
-        this.alert = 'Usuario o contraseña incorrectos, intente nuevamente';
-      }
+             await apiServices.guardarProducto(this.form);
+        
+                this.$router.push('/admin')
+             //   this.$emit('add-producto',producto)
+       },
+     async actualizarProducto() {
+    
     },
    
   }

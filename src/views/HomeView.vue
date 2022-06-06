@@ -4,7 +4,9 @@
     <Producto v-for="(producto,i) in productos"
              :key="i"
              :producto="producto"
-             @add-to-cart="updateCart" />
+          
+             @ver-producto="showProducto" />
+    <ProductoDetalle :producto="producto"    @add-to-cart="updateCart"  @close-detalle="closeProducto"   />
     </div>
          
 
@@ -15,6 +17,7 @@
 <script>
 // @ is an alias to /src
 import Producto from '@/components/productos/Producto.vue'
+import ProductoDetalle from '@/components/productos/ProductoDetalle.vue'
 
 
 export default {
@@ -25,13 +28,26 @@ export default {
         },
   
   },
+    data(){
+      return{
+        producto:{}
+      }
+    },
   name: 'ProductosView',
   components: {
-    Producto
+    Producto, ProductoDetalle
   },methods:{
         updateCart(prod){
           console.log(prod)
           this.$emit('add-to-cart', prod)
+          this.producto={}
+       },
+       showProducto(producto){
+         this.producto=producto;
+         
+       },
+       closeProducto(){
+         this.producto=""
        }
 
   }

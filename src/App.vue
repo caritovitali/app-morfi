@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-
         <NavBar 
             :carrito="carrito"
             @ver-carrito="showCarritoModal" 
             :usuario="usuario"
+            @log-out="logOut" 
              />
       <div class="py-12 md:px-20 sm:px-14 px-6">
         <router-view
@@ -13,9 +13,13 @@
           :usuario="usuario"
           @iniciar-sesion="login"
           @add-to-cart="updateCart"
- 
-         
+          @add-producto="addProducto"
          />
+            <CarritoModal v-show="showCarrito"
+              :carrito="carrito"
+              @vaciar-carrito="vaciarCarrito"
+              @cerrar-carrito="closeCarritoModal"
+              @finalizar-compra="finalizarCompra" />
       </div>
         
   </div>
@@ -24,47 +28,59 @@
 <script>
 
 import NavBar from './components/NavBar.vue'
+import CarritoModal from './components/carrito/CarritoModal.vue'
 import apiServices from '@/services/api.services';
 export default {
   name: 'App',
   components: {
-    NavBar,
+    NavBar, CarritoModal
   },data(){
     return{
       productos:[],
       carrito:[],
       showCarrito:false,
       showLogin:false,
-      usuario:null,
-       
+      usuario:null,      
     }
   },
  mounted() {
-    this.getProductos();
-    this.getCarrito();
+     this.getProductos();
+     this.getCarrito();
+     this.getUsuario();
   }
-  
-  ,methods:{
+  ,
+  methods:{
       async getProductos() {
          this.productos = await apiServices.getProductos();
      },
-  login(user){
-      console.log(user)
-      this.usuario=user;
-  },
+      login(user){
+          console.log(user)
+          this.usuario=user;
+          localStorage.setItem('usuario', JSON.stringify(this.usuario));
+      },
+      logOut(){
+            this.carrito=[];
+            localStorage.removeItem('usuario');
+            this.usuario=null
+        
+      },
      getCarrito() {
-      this.cart = JSON.parse(localStorage.getItem('carrito')) || [];
+      this.carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    },getUsuario() {
+      this.usuario = JSON.parse(localStorage.getItem('usuario')) || null;
     }, 
     showCarritoModal(data){
       this.showCarrito=data
     },
-      closeCarritoModal(data){
+    closeCarritoModal(data){
       this.showCarrito=data
     },
-      finalizarCompra(data){
-      this.showCarrito=data
-      this.carrito=[]
-    }, updateCart(prod) {
+    async finalizarCompra(){
+        var items=[this.carrito]
+             await apiServices.guardarCompra(this.usuario.id,items);
+             this.vaciarCarrito()
+    }, 
+    updateCart(prod) {
         const productInCart = this.carrito.find(producto => producto.id === prod.id)             
         if (productInCart) {
           productInCart.cantidad++;
@@ -79,7 +95,16 @@ export default {
             total: newProduct.precio
           })
         }
+        localStorage.setItem('carrito', JSON.stringify(this.carrito));
     },
+    vaciarCarrito(){
+      this.carrito=[];
+         localStorage.removeItem('carrito');
+         this.showCarrito=false;
+    },
+     addProducto(producto){
+      this.productos.push(producto)
+    }
   },
 }
 </script>
