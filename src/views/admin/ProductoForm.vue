@@ -108,7 +108,7 @@ export default {
              //   this.$emit('add-producto',producto)
        },
      async actualizarProducto() {
-                 await apiServices.actualizarProducto(this.form,this.id);
+                 await apiServices.actualizarProducto(this.id,this.form);
         
                 this.$router.push('/admin')
              //   this.$emit('add-producto',producto)

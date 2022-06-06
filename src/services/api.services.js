@@ -39,6 +39,13 @@ const apiServices = {
       return res.data;
 
     } catch (err) { console.log (err) }
+  },  actualizarProducto: async (id,producto) => {
+    try {
+      const res = await axios.put(`${apiUrl}/productos/${id}`, producto);
+      
+      return res.data;
+
+    } catch (err) { console.log (err) }
   },
   getPedidos: async (userId) => {
     try {
@@ -54,7 +61,8 @@ const apiServices = {
       return res.data;
 
     } catch (err) { console.log (err) }
-  },
+  }
+
  
 }
 
