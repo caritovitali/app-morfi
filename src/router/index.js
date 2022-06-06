@@ -28,12 +28,13 @@ const routes = [
     path: '/new',
     name: 'productoNew',
     component: ProductoForm,
-   
-  },  {
-    path: '/edit',
-    name: 'productoEdit',
+
+  }, 
+  {
+    path: '/edit/:id',
+    name: 'edit',
     component: ProductoForm,
-   
+    props: true
   },
   {
     path: '/pedidos',

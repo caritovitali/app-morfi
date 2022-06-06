@@ -4,7 +4,8 @@
         <div class="grid  gap-8 grid-cols-1 ">
             <div class="flex flex-col ">
                     <div class="flex flex-col sm:flex-row items-center">
-                        <h2 class="font-semibold text-lg mr-auto">Alta de Producto</h2>
+                        <h2 class="font-semibold text-lg mr-auto" v-if="!item">Alta de Producto</h2>
+                            <h2 class="font-semibold text-lg mr-auto" v-if="item">Editar de Producto</h2>
                         <div class="w-full sm:w-auto sm:ml-auto mt-3 sm:mt-0"></div>
                     </div>
                     <div class="mt-5">
@@ -40,7 +41,8 @@
                                         <p class="text-xs text-red-500 text-right my-3">Campos requeridos con asterisco <abbr title="Required field">*</abbr></p>
                                         <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
                                             <button class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100" @click="resetForm()"> Cancelar </button>
-                                            <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="guardarProducto()" >Guardar</button>
+                                            <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="guardarProducto()"  v-if="!item" >Guardar</button>
+                                                                                        <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="actualziarProducto()"  v-if="item" >Actualizar</button>
                                         </div>
                                           </form>
                                     </div>
@@ -61,7 +63,7 @@ import apiServices from '@/services/api.services';
 
 export default {
   name: 'ProductoForm',
-  
+
   data: () => ({
       form:{
         nombre:"",
@@ -77,9 +79,19 @@ export default {
     usuario: {
       type: Object
     },
+    id: {
+      type: String,
+      required: true
+    },
+    item: {
+      type: Object
+    }
     
   },
   mounted() {
+    if (this.item) {
+      this.form= Object.assign({}, this.item)      
+    }
 
   },
   
@@ -96,7 +108,10 @@ export default {
              //   this.$emit('add-producto',producto)
        },
      async actualizarProducto() {
-    
+                 await apiServices.actualizarProducto(this.form,this.id);
+        
+                this.$router.push('/admin')
+             //   this.$emit('add-producto',producto)
     },
    
   }
