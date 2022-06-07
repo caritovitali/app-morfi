@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/user/LoginView.vue'
 import RegistroView from '../views/user/RegistroView.vue'
-import ProductoForm from '../views/admin/ProductoForm.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -25,15 +24,15 @@ const routes = [
    
   },
   {
-    path: '/new',
-    name: 'productoNew',
-    component: ProductoForm,
-
+    path: '/admin/producto/new',
+    name: 'new',
+    component: () => import('@/views/admin/ProductoForm.vue'),
+    props: true
   }, 
   {
-    path: '/edit/:id',
+    path: '/admin/producto/edit/:id',
     name: 'edit',
-    component: ProductoForm,
+    component: () => import('@/views/admin/ProductoForm.vue'),
     props: true
   },
   {

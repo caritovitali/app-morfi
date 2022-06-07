@@ -17,6 +17,7 @@
          />
             <CarritoModal v-show="showCarrito"
               :carrito="carrito"
+               :usuario="usuario"
               @vaciar-carrito="vaciarCarrito"
               @cerrar-carrito="closeCarritoModal"
               @finalizar-compra="finalizarCompra" />
@@ -62,6 +63,7 @@ export default {
             this.carrito=[];
             localStorage.removeItem('usuario');
             this.usuario=null
+            location.reload()
         
       },
      getCarrito() {

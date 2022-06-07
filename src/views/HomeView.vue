@@ -47,7 +47,7 @@ export default {
          
        },
        closeProducto(){
-         this.producto=""
+         this.producto={}
        }
 
   }

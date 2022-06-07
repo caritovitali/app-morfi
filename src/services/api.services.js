@@ -33,13 +33,14 @@ const apiServices = {
 
     } catch (err) { console.log (err) }
   }, 
-   guardarProducto: async (producto) => {
+   saveProducto: async (producto) => {
     try {
       const res = await axios.post(apiUrl + '/productos', producto);
       return res.data;
 
     } catch (err) { console.log (err) }
-  },  actualizarProducto: async (id,producto) => {
+  }, 
+  updateProducto: async (id,producto) => {
     try {
       const res = await axios.put(`${apiUrl}/productos/${id}`, producto);
       

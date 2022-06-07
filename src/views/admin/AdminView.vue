@@ -2,7 +2,7 @@
     <div>
         <div class="">
 
-          <router-link to="/new" class="mb-4 float-left bg-red-600 hover:bg-red-700 text-white text-sm  px-4 py-2  border rounded-full"> Nuevo Producto</router-link> 
+          <router-link :to="{ name: 'new' }" class="mb-4 float-left bg-red-600 hover:bg-red-700 text-white text-sm  px-4 py-2  border rounded-full"> Nuevo Producto</router-link> 
 
              
         </div>
@@ -55,7 +55,7 @@
                                               <router-link   :to="{ 
                                                           name: 'edit', 
                                                           params: { 
-                                                            id: item.id,
+                                                            id: item.id.toString(),
                                                             item 
                                                           } 
                                                         }" 
@@ -92,7 +92,10 @@ export default {
   },
 
   mounted() {
-    this.getProductos();
+    if (this.usuario) this.getProductos();
+    else this.$router.push('/')
+    
+    
   },
   
   methods: {

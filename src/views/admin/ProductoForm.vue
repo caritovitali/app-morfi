@@ -40,9 +40,11 @@
                                     
                                         <p class="text-xs text-red-500 text-right my-3">Campos requeridos con asterisco <abbr title="Required field">*</abbr></p>
                                         <div class="mt-5 text-right md:space-x-3 md:block flex flex-col-reverse">
-                                            <button class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100" @click="resetForm()"> Cancelar </button>
-                                            <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="guardarProducto()"  v-if="!item" >Guardar</button>
-                                                                                        <button class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="actualziarProducto()"  v-if="item" >Actualizar</button>
+                                            
+                                              <router-link :to="{ name: 'admin' }" class="mb-2 md:mb-0 bg-white px-5 py-2 text-sm shadow-sm font-medium tracking-wider border text-gray-600 rounded-full hover:shadow-lg hover:bg-gray-100"> Cancelar</router-link> 
+
+                                            <button type="button" class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="guardarProducto()"  v-if="!item" >Guardar</button>
+                                           <button type="button" class="mb-2 md:mb-0 bg-green-400 px-5 py-2 text-sm shadow-sm font-medium tracking-wider text-white rounded-full hover:shadow-lg hover:bg-green-500" @click="actualizarProducto()"  v-if="item" >Actualizar</button>
                                         </div>
                                           </form>
                                     </div>
@@ -79,9 +81,8 @@ export default {
     usuario: {
       type: Object
     },
-    id: {
-      type: String,
-      required: true
+    id:{
+      type:String
     },
     item: {
       type: Object
@@ -89,9 +90,14 @@ export default {
     
   },
   mounted() {
-    if (this.item) {
-      this.form= Object.assign({}, this.item)      
-    }
+        if (this.usuario){
+            if (this.item) {
+                this.form= Object.assign({}, this.item)      
+              }
+        }else{
+          this.$router.push('/')
+        } 
+ 
 
   },
   
@@ -102,16 +108,17 @@ export default {
       else this.$router.push('/')
     },
        async guardarProducto() {
-             await apiServices.guardarProducto(this.form);
+           const producto=  await apiServices.saveProducto(this.form);
         
                 this.$router.push('/admin')
-             //   this.$emit('add-producto',producto)
+                this.$emit('add-producto',producto)
        },
+
      async actualizarProducto() {
-                 await apiServices.actualizarProducto(this.id,this.form);
-        
+            const producto=  await apiServices.updateProducto(this.id,this.form);
+            
                 this.$router.push('/admin')
-             //   this.$emit('add-producto',producto)
+                this.$emit('upd-producto',producto)
     },
    
   }

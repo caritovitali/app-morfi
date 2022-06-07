@@ -34,7 +34,9 @@ export default {
   },
 
   mounted() {
-    this.getPedidos();
+        if (this.usuario) this.getPedidos();
+    else this.$router.push('/')
+
   },
   
   methods: {
