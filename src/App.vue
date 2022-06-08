@@ -63,7 +63,7 @@ export default {
             this.carrito=[];
             localStorage.removeItem('usuario');
             this.usuario=null
-            location.reload()
+            this.$router.push('/')
         
       },
      getCarrito() {
